@@ -81,6 +81,7 @@ export default function (opts) {
         },
         watch,
       }),
+      zipPlugin(),
     ],
     watch: {
       exclude: 'node_modules/**/*',
@@ -153,4 +154,29 @@ function mkNodeResolve() {
       'main',
     ],
   });
+}
+
+function zipPlugin() {  
+  return {  
+    name: 'zip-plugin',  
+    writeBundle: async () => {  
+      const JSZip = (await import('jszip')).default;  
+      const fs = await import('fs');  
+      const path = await import('path');  
+        
+      const zip = new JSZip();  
+      const distPath = path.resolve('dist');  
+      const files = fs.readdirSync(distPath);  
+        
+      files.forEach(file => {  
+        const filePath = path.join(distPath, file);  
+        const fileContent = fs.readFileSync(filePath);  
+        zip.file(file, fileContent);  
+      });  
+        
+      const content = await zip.generateAsync({ type: 'nodebuffer' });  
+      fs.writeFileSync('dist.zip', content);  
+      console.log('dist.zip created successfully');  
+    }  
+  };  
 }
