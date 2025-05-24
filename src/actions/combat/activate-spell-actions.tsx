@@ -63,35 +63,35 @@ const mkAction = ({media, registry, ...init}: Init): void => {
   });
 };
 
-mkAction({
-  description: 'Cast a spell from the standard spellbook',
-  id: ActionId.CombatCastSpellStd,
-  label: 'Cast Standard spell',
-  media: 'combat/spellbook.svg',
-  registry: 'standardSpells',
-  spellSelection: 'standard',
-  toggleMethod: 'toggleSpell',
-});
+// mkAction({
+//   description: 'Cast a spell from the standard spellbook',
+//   id: ActionId.CombatCastSpellStd,
+//   label: 'Cast Standard spell',
+//   media: 'combat/spellbook.svg',
+//   registry: 'standardSpells',
+//   spellSelection: 'standard',
+//   toggleMethod: 'toggleSpell',
+// });
 
-mkAction({
-  description: 'Cast a spell from the ancient spellbook',
-  id: ActionId.CombatCastSpellAncient,
-  label: 'Cast Ancient spell',
-  media: 'combat/ancient.svg',
-  registry: 'ancientSpells',
-  spellSelection: 'ancient',
-  toggleMethod: 'toggleAncient',
-});
+// mkAction({
+//   description: 'Cast a spell from the ancient spellbook',
+//   id: ActionId.CombatCastSpellAncient,
+//   label: 'Cast Ancient spell',
+//   media: 'combat/ancient.svg',
+//   registry: 'ancientSpells',
+//   spellSelection: 'ancient',
+//   toggleMethod: 'toggleAncient',
+// });
 
-mkAction({
-  description: 'Cast a spell from the archaic spellbook',
-  id: ActionId.CombatCastSpellArchaic,
-  label: 'Cast Archaic spell',
-  media: 'magic/archaic_book.svg',
-  registry: 'archaicSpells',
-  spellSelection: 'archaic',
-  toggleMethod: 'toggleArchaic',
-});
+// mkAction({
+//   description: 'Cast a spell from the archaic spellbook',
+//   id: ActionId.CombatCastSpellArchaic,
+//   label: 'Cast Archaic spell',
+//   media: 'magic/archaic_book.svg',
+//   registry: 'archaicSpells',
+//   spellSelection: 'archaic',
+//   toggleMethod: 'toggleArchaic',
+// });
 
 mkAction({
   id: ActionId.CombatCastSpellAurora,
