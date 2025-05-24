@@ -45,7 +45,7 @@ defineLocalAction<Props>({
 
     const player = game.combat.player;
     player.changeEquipToSet(player.selectedEquipmentSet);
-    player.equipItem(item, player.equipToSet, slot || 'Default', qty ?? bankQty);
+    player.equipItem(item, player.equipToSet, slot || item.validSlots[0], qty ?? bankQty);
   },
   id: ActionId.CoreEquipItem,
   label: 'Equip item',
