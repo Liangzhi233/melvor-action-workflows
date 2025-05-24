@@ -117,7 +117,7 @@ export class Player extends Character {
 
   changeEquipmentSet(setId: number): void;
 
-  consumeEquipmentCharges(event: unknown, interval: unknown): void;
+  consumeItemCharges(event: unknown, interval: unknown): void;
 
   consumePrayerPoints(amount: number): void;
 

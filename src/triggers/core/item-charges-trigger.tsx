@@ -29,7 +29,7 @@ const triggerCtx = defineLocalTrigger<Data>({
   ),
   id: TriggerId.CoreItemCharges,
   init() {
-    ctx.patch(Player, 'consumeEquipmentCharges').after(() => {
+    ctx.patch(Player, 'consumeItemCharges').after(() => {
       triggerCtx.notifyListeners(check);
     });
   },
