@@ -18,9 +18,9 @@ interface Data {
 
 function check({comparator, item, qty}: Data): boolean {
   const eq = game.combat.player.equipment;
-  const slot = eq.slotMap.get(item);
-
-  return slot != null && numCompare(eq.slots[slot].quantity, comparator, qty);
+  const slot = eq.getSlotOfItem(item);
+  const quantity = !slot ? 0 : eq.getQuantityInSlot(slot.id);
+  return numCompare(quantity, comparator, qty);
 }
 
 const triggerCtx = defineLocalTrigger<Data>({

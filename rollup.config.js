@@ -20,6 +20,7 @@ export default function (opts) {
 
   return {
     input: 'src/setup.tsx',
+    cache: false,
     output: {
       dir: 'dist',
       format: 'es',

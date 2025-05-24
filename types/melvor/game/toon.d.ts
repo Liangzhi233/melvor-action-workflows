@@ -21,6 +21,8 @@ export const enum EquipSlotType {
   Weapon = 'Weapon',
 }
 
+export type EquipSlotIDType = string;
+
 export class Equipment {
   slotArray: EquipSlot[];
 
@@ -30,28 +32,22 @@ export class Equipment {
 
   addQuantityToSlot(slot: EquipSlot, quantity: number): void;
 
+  getQuantityInSlot(slotId: EquipSlotIDType): number;
+
+  getSlotOfItem(item: EquipmentItem): EquipSlot | undefined;
+
   removeQuantityFromSlot(slot: EquipSlot, quantity: number): void;
 }
 
 export class EquipSlot {
-  emptyItem: EquipmentItem;
-
-  item: EquipmentItem;
-
-  occupiedBy: string;
-
-  occupies: any[];
-
-  quantity: number;
-
-  type: EquipSlotType;
+  id: EquipSlotIDType;
+  emptyName: string;
+  allowQuantity: boolean;
 }
 
 export class EquipmentSet {
   equipment: Equipment;
 }
-
-export type EquipItemArgSlot = EquipSlotType | 'Default';
 
 export class SpellSelection {
   ancient?: CombatSpell;
@@ -131,9 +127,9 @@ export class Player extends Character {
    * @param [slot='Default']
    * @param [quantity=1]
    */
-  equipItem(item: EquipmentItem, set: number, slot?: EquipItemArgSlot, quantity?: number): void;
+  equipItem(item: EquipmentItem, set: number, slot?: EquipSlot, quantity?: number): void;
 
-  isEquipmentSlotUnlocked(slot: EquipSlotType | undefined): boolean;
+  isEquipmentSlotUnlocked(slot: EquipSlot): boolean;
 
   setAttackStyle(attackType: AttackTypeID, attackStyle: AttackStyle): void;
 
@@ -149,7 +145,7 @@ export class Player extends Character {
 
   toggleSpell(curse: CombatSpell, render?: boolean): void;
 
-  unequipItem(set: number, slot?: EquipItemArgSlot, quantity?: number): void;
+  unequipItem(set: number, slot?: EquipSlot, quantity?: number): void;
 }
 
 export class Character extends NamespacedObject {

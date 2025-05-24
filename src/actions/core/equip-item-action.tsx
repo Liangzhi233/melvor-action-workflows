@@ -3,7 +3,6 @@ import {EquipSlotType} from 'melvor';
 import {Fragment} from 'preact';
 import {InternalCategory} from '../../lib/registries/action-registry.mjs';
 import {defineLocalAction} from '../../lib/util/define-local.mjs';
-import {objectFromArray} from '../../lib/util/obj-from-array.mjs';
 import {BigNum} from '../../ui/components/big-num';
 import {RenderNodeMedia} from '../../ui/pages/workflows-dashboard/render-node-media';
 import ActionId from '../action-id.mjs';
@@ -43,9 +42,11 @@ defineLocalAction<Props>({
       return;
     }
 
+    
     const player = game.combat.player;
+    const validSlot = slot ? game.equipmentSlots.getObjectByID(slot) : item.validSlots[0];
     player.changeEquipToSet(player.selectedEquipmentSet);
-    player.equipItem(item, player.equipToSet, slot || item.validSlots[0], qty ?? bankQty);
+    player.equipItem(item, player.equipToSet, validSlot, qty ?? bankQty);
   },
   id: ActionId.CoreEquipItem,
   label: 'Equip item',
@@ -61,10 +62,18 @@ defineLocalAction<Props>({
     },
     {
       description: 'Leave empty to use the item\'s default, e.g. a ring with a passive effect would get equipped to the ring slot. If you\'re equipping two summons, specify the slot for each.',
-      enum: ({item}: Props) => objectFromArray(item.validSlots),
+      enum: ({item}: Props) => {
+        return Object.fromEntries(
+          item.validSlots
+            .filter(x => game.combat.player.isEquipmentSlotUnlocked(x))
+            .map(x => [x.id, x.emptyName])
+        );
+      },
       id: 'slot',
       label: 'Slot',
-      showIf: ({item}: Partial<Props>) => (item?.validSlots?.length ?? 0) > 1,
+      showIf: ({item}: Partial<Props>) => {
+        return (item?.validSlots?.filter(x => game.combat.player.isEquipmentSlotUnlocked(x))?.length ?? 0) > 1;
+      },
       type: String,
     },
     {
@@ -72,15 +81,8 @@ defineLocalAction<Props>({
       id: 'qty',
       label: 'Quantity',
       min: 1,
-      showIf: ({item}: Partial<Props>) => SLOTS_WITH_QTY.has(item?.validSlots[0] as EquipSlotType),
+      showIf: ({item}: Partial<Props>) => item?.validSlots[0]?.allowQuantity ?? false,
       type: Number,
     },
   ],
 });
-
-const SLOTS_WITH_QTY = new Set<EquipSlotType>([
-  EquipSlotType.Consumable,
-  EquipSlotType.Quiver,
-  EquipSlotType.Summon1,
-  EquipSlotType.Summon2,
-]);

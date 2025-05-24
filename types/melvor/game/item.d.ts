@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import type {PotionReuseTarget} from './misc';
-import type {EquipSlotType} from './toon';
+import type {EquipSlot} from './toon';
 
 export class Item extends NamespacedObject {
   _media: string;
@@ -33,7 +33,7 @@ export class EquipmentItem extends Item {
 
   tier?: string;
 
-  validSlots: EquipSlotType[];
+  validSlots: EquipSlot[];
 }
 
 export class FoodItem extends Item {

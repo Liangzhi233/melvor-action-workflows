@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-import {ActivePrayer, CombatArea, CombatSpell, Dungeon, Pet, PetManager, SlayerArea, SpecialAttack} from 'melvor';
+import {ActivePrayer, CombatArea, CombatSpell, Dungeon, EquipSlot, Pet, PetManager, SlayerArea, SpecialAttack} from 'melvor';
 import type {Monster} from './combat';
 import {Attack, AttackStyle} from './combat';
 import type {EquipmentItem, Item} from './item';
@@ -247,6 +247,8 @@ export class Game {
 
   standardSpells: NamespaceRegistry<CombatSpell>;
 
+  equipmentSlots: NamespaceRegistry<EquipSlot>;
+  
   stats: Statistics;
 
   summoning: Summoning;
