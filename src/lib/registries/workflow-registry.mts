@@ -206,6 +206,9 @@ export default class WorkflowRegistry {
     if (exec || this.primaryExecution) {
       this._primaryExecution$.next(exec);
     }
+    else {
+      warnLog('no primary execution to set');
+    }
   }
 
   public setPrimaryExecution(workflow?: Workflow, force = false): void {
@@ -224,6 +227,7 @@ export default class WorkflowRegistry {
 export function loadPrimaryExecution(liveWorkflows: Workflow[] | readonly Workflow[]): WorkflowExecution | undefined {
   const execRef = ctx.characterStorage.getItem<PrimaryExecutionRef>(StorageKey.PRIMARY_EXECUTION);
   if (!execRef) {
+    warnLog('No primary execution found in storage');
     return;
   }
 
