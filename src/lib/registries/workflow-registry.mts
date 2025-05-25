@@ -147,9 +147,10 @@ export default class WorkflowRegistry {
         })
       )
       .subscribe(state => {
-        if (loadingOfflineProgress) {
-          return;
-        }
+        // why not saving?
+        // if (loadingOfflineProgress) {
+        //   return;
+        // }
 
         const storage = ctx.characterStorage;
         if (state) {
