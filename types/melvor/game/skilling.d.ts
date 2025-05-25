@@ -247,6 +247,8 @@ export class SummoningRecipe extends CategorizedArtisanRecipe {
 
 export class Summoning extends ArtisanSkill<SummoningRecipe> {
   discoverMark(recipe: SummoningRecipe): void;
+
+  public selectNonShardCostOnClick(altCostIdx: number): void;
 }
 
 export class Smithing extends ArtisanSkill<SingleProductArtisanSkillRecipe> {

@@ -30,5 +30,11 @@ defineLocalAction(
       ],
       skillKey: 'summoning',
     })
-    .exec(SingleRecipeAction.altArtisanExec)
+    .exec(function startSummoningExec({alt, recipe}) {
+      this.skill.selectRecipeOnClick(recipe);
+      if (alt != null) {
+        this.skill.selectNonShardCostOnClick(alt);
+      }
+      this.skill.createButtonOnClick();
+    })
 );
