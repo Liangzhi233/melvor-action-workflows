@@ -126,6 +126,7 @@ export default class WorkflowRegistry {
       .pipe(
         switchMap((exec): Observable<PrimaryExecutionRef | null> => {
           if (!exec) {
+            console.log('[workflow-registry] No primary execution, returning null');
             return of(null);
           }
 
@@ -134,7 +135,9 @@ export default class WorkflowRegistry {
             map(() => exec.activeStepIdx),
             distinctUntilChanged(),
             map((step): PrimaryExecutionRef | null => {
+              console.log('[workflow-registry] Step:', step, 'Workflow steps:', exec.workflow.steps.length);
               if (step >= exec.workflow.steps.length) {
+                console.log('[workflow-registry] Step is greater than workflow steps, returning null');
                 return null;
               }
 
@@ -151,6 +154,7 @@ export default class WorkflowRegistry {
         // if (loadingOfflineProgress) {
         //   return;
         // }
+        console.log('[workflow-registry] Saving primary execution state:', state);
 
         const storage = ctx.characterStorage;
         if (state) {
