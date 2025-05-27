@@ -71,7 +71,17 @@ ${(e as Error).stack}
   }
 
   public addAction(): void {
-    this.actions.push(new ActionConfigItem());
+    // 如果已有actions，复制最后一个action的内容
+    if (this.actions.length > 0) {
+      const lastAction = this.actions[this.actions.length - 1];
+      const newAction = new ActionConfigItem({
+        action: lastAction.action,
+        opts: {...lastAction.opts}, // 深拷贝opts对象
+      });
+      this.actions.push(newAction);
+    } else {
+      this.actions.push(new ActionConfigItem());
+    }
   }
 
   public toJSON() { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types

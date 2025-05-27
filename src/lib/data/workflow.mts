@@ -4,8 +4,10 @@ import WorkflowRegistry from '../registries/workflow-registry.mjs';
 import AutoIncrement from '../util/decorators/auto-increment.mjs';
 import PersistClassName from '../util/decorators/PersistClassName.mjs';
 import {DeserialisationError, toJsonMapper} from '../util/to-json.mjs';
+import ActionConfigItem from './action-config-item.mjs';
 import type {WorkflowStepJson} from './workflow-step.mjs';
 import {WorkflowStep} from './workflow-step.mjs';
+import {WorkflowTrigger} from './workflow-trigger.mjs';
 
 type Init = Partial<Pick<Workflow, 'name' | 'steps' | 'embeddedWorkflows'>>;
 
@@ -108,7 +110,34 @@ ${(e as Error).stack}
 
   public addStep(idx: number = this.steps.length): void {
     const out = [...this.steps];
-    out.splice(idx, 0, new WorkflowStep());
+
+    // 如果已有steps，复制前一个step的内容
+    let newStep: WorkflowStep;
+    if (this.steps.length > 0) {
+      const prevStepIdx = Math.max(0, idx - 1);
+      const prevStep = this.steps[prevStepIdx];
+
+      // 复制trigger
+      const newTrigger = new WorkflowTrigger({
+        opts: {...prevStep.trigger.opts}, // 深拷贝opts对象
+        trigger: prevStep.trigger.trigger,
+      });
+
+      // 复制actions
+      const newActions = prevStep.actions.map(action => new ActionConfigItem({
+        action: action.action,
+        opts: {...action.opts}, // 深拷贝opts对象
+      }));
+
+      newStep = new WorkflowStep({
+        actions: newActions,
+        trigger: newTrigger,
+      });
+    } else {
+      newStep = new WorkflowStep();
+    }
+
+    out.splice(idx, 0, newStep);
     this._steps$.next(out);
   }
 
