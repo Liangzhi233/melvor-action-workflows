@@ -4,6 +4,7 @@ import type {BaseSpell, Game, NamespaceRegistry, RuneRequirement} from './core';
 import {NamespacedObject} from './core';
 import type {Item} from './item';
 import type {ItemCost, ShopPurchase} from './misc';
+import type {Realm, RealmedObject} from './realm';
 
 export class Timer {
   active: boolean;
@@ -88,7 +89,7 @@ export class Astrology extends GatheringSkill<AstrologyRecipe> {
   public studyConstellationOnClick(constellation: AstrologyRecipe): void;
 }
 
-export class MasteryAction extends NamespacedObject {
+export class MasteryAction extends RealmedObject {
 }
 
 export class BaseAgilityObject extends MasteryAction {
@@ -132,6 +133,8 @@ export class Thieving extends GatheringSkill<ThievingNPC> {
 export class Skill extends NamespacedObject {
   actionTimer: Timer;
 
+  currentRealm: Realm;
+
   get game(): Game;
 
   get hasMastery(): boolean;
@@ -164,9 +167,9 @@ export class SkillWithMastery<T> extends Skill {
 
   get masteryPoolCapPercent(): number;
 
-  get masteryPoolProgress(): number;
+  getMasteryPoolProgress(realm: Realm): number;
 
-  addMasteryPoolXP(xp: number): void;
+  addMasteryPoolXP(realm: Realm, xp: number): void;
 
   addMasteryXP(action: T, xp: number): void;
 

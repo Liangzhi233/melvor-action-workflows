@@ -1,11 +1,10 @@
 import {Fragment} from 'preact';
-import {useCallback} from 'preact/hooks';
+import {useCallback, useEffect, useState} from 'preact/hooks';
 import {defineOption} from '../lib/define-option.mjs';
 import {EMPTY_ARR} from '../lib/util.mjs';
 import {resolveDynamicOptionObject} from '../lib/util/dynamic-option.mjs';
 import {isUndefinedOr, typeIs} from '../lib/util/type-is.mjs';
 import type {NumberNodeOption} from '../public_api';
-import useReRender from '../ui/hooks/re-render';
 import {useRenderEditTouch} from './_common.mjs';
 
 defineOption<number, NumberNodeOption>({
@@ -24,17 +23,25 @@ defineOption<number, NumberNodeOption>({
     onChange,
     otherValues,
   }) {
-    const reRender = useReRender();
     const onBlur = useRenderEditTouch();
+    const [inputValue, setInputValue] = useState<string>('');
+    
+    // Initialize input value when component mounts or value changes
+    useEffect(() => {
+      setInputValue(value?.toString() ?? '');
+    }, [value]);
+    
     const onInp = useCallback((e: Event) => {
       const newVal = (e.target as HTMLInputElement).value;
+      setInputValue(newVal);
+      
       const asNum = parseFloat(newVal);
-
+      
       if (isNaN(asNum)) {
         onChange(undefined);
-      } else if (newVal.endsWith('.')) {
-        value = newVal as any; // eslint-disable-line no-param-reassign
-        reRender();
+      } else if (newVal.endsWith('.') || newVal === '') {
+        // Don't update the actual value yet, just keep the string
+        return;
       } else {
         onChange(asNum);
       }
@@ -45,7 +52,7 @@ defineOption<number, NumberNodeOption>({
         class={'form-control form-control-sm'}
         type={'number'}
         onBlur={onBlur}
-        value={value ?? ''}
+        value={inputValue}
         onInput={onInp}
         placeholder={placeholder ?? ''}
         max={resolveDynamicOptionObject(max, otherValues) ?? ''}

@@ -15,6 +15,7 @@ import type {
   Shop,
   SlayerCoins
 } from './misc';
+import type {Realm} from './realm';
 import type {
   Agility,
   AltMagic,
@@ -192,6 +193,8 @@ export class Game {
   readonly currentGamemode: Gamemode;
 
   curseSpells: NamespaceRegistry<CombatSpell>;
+
+  defaultRealm: Realm;
 
   dungeons: NamespaceRegistry<Dungeon>;
 

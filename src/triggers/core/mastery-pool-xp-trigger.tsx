@@ -13,7 +13,7 @@ interface Data {
 
 const triggerCtx = defineLocalTrigger<Data>({
   category: InternalCategory.CORE,
-  check: ({pool, skill}) => skill.masteryPoolProgress >= pool,
+  check: ({pool, skill}) => skill.getMasteryPoolProgress(skill.currentRealm) >= pool,
   compactRender: ({pool, skill}) => (
     <Fragment>
       <RenderNodeMedia label={skill.name} media={skill.media}/>
