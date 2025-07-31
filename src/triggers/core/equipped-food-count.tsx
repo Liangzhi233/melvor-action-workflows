@@ -15,12 +15,11 @@ interface Data {
 
 function check({comparator, item, qty}: Data): boolean {
   for (const slot of game.combat.player.food.slots) {
-    if (slot.item === item && numCompare(slot.quantity, comparator, qty)) {
-      return true;
+    if (slot.item === item) {
+      return numCompare(slot.quantity, comparator, qty);
     }
   }
-
-  return false;
+  return numCompare(0, comparator, qty);
 }
 
 const triggerCtx = defineLocalTrigger<Data>({

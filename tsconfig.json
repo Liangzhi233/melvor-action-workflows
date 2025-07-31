@@ -18,6 +18,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noImplicitThis": true,
+    "suppressImplicitAnyIndexErrors": true,
     "strictBindCallApply": true,
     "resolveJsonModule": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
