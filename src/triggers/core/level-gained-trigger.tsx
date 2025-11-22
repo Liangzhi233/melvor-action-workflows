@@ -40,7 +40,7 @@ const triggerCtx = defineLocalTrigger<LevelGainedTriggerData>({
     {
       id: 'level',
       label: 'Level',
-      max: ({skill}: Partial<LevelGainedTriggerData>) => Math.max(99, skill?.levelCap ?? 0), // eslint-disable-line @typescript-eslint/no-magic-numbers
+      max: ({skill}: Partial<LevelGainedTriggerData>) => Math.max(120, skill?.levelCap ?? 0), // eslint-disable-line @typescript-eslint/no-magic-numbers
       min: 2,
       required: true,
       type: Number,
